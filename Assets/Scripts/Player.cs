@@ -13,6 +13,9 @@ public class Player : MonoBehaviour
     [SerializeField] Transform aim;
     [SerializeField] Camera cam;
     Vector2 facingDirection;
+    [SerializeField] Transform bulletPrefab;
+    bool gunLoaded = true;
+    [SerializeField] float fireRate = 1;
 
     // Start is called before the first frame update
     void Start()
@@ -40,5 +43,22 @@ public class Player : MonoBehaviour
 
         aim.position = transform.position + (Vector3)facingDirection.normalized;
 
+        //Si player presiona boton izq instancio una bala
+        if (Input.GetMouseButton(0) && gunLoaded)
+        {
+            gunLoaded = false;
+            //obtengo la rotacion que necesito que salga la bala(que consigo de la mira)
+            float angle = Mathf.Atan2(facingDirection.y, facingDirection.x) * Mathf.Rad2Deg;
+            Quaternion targetRotation = Quaternion.AngleAxis(angle, Vector3.forward);
+
+            Instantiate(bulletPrefab, transform.position, targetRotation);
+            //https://docs.unity3d.com/Manual/Coroutines.html
+            StartCoroutine(ReloadGun());
+        }
+    }
+    IEnumerator ReloadGun()
+    {
+        yield return new WaitForSeconds(1/fireRate);
+        gunLoaded = true;
     }
 }

@@ -223,6 +223,7 @@ MonoBehaviour:
   speed: 3
   aim: {fileID: 1942622548}
   cam: {fileID: 519420031}
+  bulletPrefab: {fileID: 3209708377118794097, guid: f551b715583a5434499cd78a457368c7, type: 3}
 --- !u!212 &132872483
 SpriteRenderer:
   m_ObjectHideFlags: 0
