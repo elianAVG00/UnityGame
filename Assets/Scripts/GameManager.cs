@@ -6,7 +6,8 @@ public class GameManager : MonoBehaviour
 {
     //tener acceso desde otro codigo sin tener q instanciarlo, al ser static la variable existe en memoria hasta q se cierre la app
     public static GameManager instance;
-    [SerializeField]int time = 30;
+    [SerializeField] int time = 30;
+    [SerializeField] public int difficulty = 1;
 
     //aplico singleton para instanciar el objeto una unica vez
     private void Awake()
