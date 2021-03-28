@@ -17,6 +17,9 @@ public class Player : MonoBehaviour
     bool gunLoaded = true;
     [SerializeField] float fireRate = 1;
     [SerializeField] int health = 10;
+    bool poweerShotEnabled;
+    bool invulnerable;
+    [SerializeField] int invulnerableTime = 3;
 
     // Start is called before the first frame update
     void Start()
@@ -52,7 +55,13 @@ public class Player : MonoBehaviour
             float angle = Mathf.Atan2(facingDirection.y, facingDirection.x) * Mathf.Rad2Deg;
             Quaternion targetRotation = Quaternion.AngleAxis(angle, Vector3.forward);
 
-            Instantiate(bulletPrefab, transform.position, targetRotation);
+            Transform bulletClone = Instantiate(bulletPrefab, transform.position, targetRotation);
+
+            if (poweerShotEnabled)
+            {
+                bulletClone.GetComponent<Bullet>().powerShot = true;
+            }
+
             //https://docs.unity3d.com/Manual/Coroutines.html
             StartCoroutine(ReloadGun());
         }
@@ -62,13 +71,42 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(1/fireRate);
         gunLoaded = true;
     }
+    IEnumerator MakeVulnerableAgain()
+    {
+        yield return new WaitForSeconds(invulnerableTime);
+        invulnerable = false;
+    }
 
     public void TakeDamage()
     {
-        health--;
-        if (health <= 0)
+        if(invulnerable == false)
         {
-            Destroy(gameObject);
+            health--;
+            invulnerable = true;
+            StartCoroutine(MakeVulnerableAgain());
+            if (health <= 0)
+            {
+                Destroy(gameObject);
+            }
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("PowerUp"))
+        {
+            switch (collision.GetComponent<PowerUp>().powerUpType)
+            {
+                case PowerUp.PowerUpType.FireRateIncrease:
+                    //incremntar cadencia de disparo
+                    fireRate++;
+                    break;
+                case PowerUp.PowerUpType.PowersShot:
+                    //activar l  powerShot
+                    poweerShotEnabled = true;
+                    break;
+            }
+            Destroy(collision.gameObject, 0.1f);
         }
     }
 }
