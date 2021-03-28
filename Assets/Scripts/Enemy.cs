@@ -22,7 +22,7 @@ public class Enemy : MonoBehaviour
     {
         //genero una direction que sea la del posicion del player - la del enemy se decir se va a ir acercando cada vez que entre en Update()
         Vector2 direction = player.position - transform.position;
-        transform.position += (Vector3)direction * Time.deltaTime * speed;
+        transform.position += (Vector3)direction.normalized * Time.deltaTime * speed;
 
     }
 

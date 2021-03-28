@@ -21,11 +21,11 @@ public class EnemySpawnController : MonoBehaviour
 
             if(random < GameManager.instance.difficulty * 0.1f)
             {
-                Instantiate(enemyPrefab[0]);
+                Instantiate(enemyPrefab[1]);
             }
             else
             {
-                Instantiate(enemyPrefab[1]);
+                Instantiate(enemyPrefab[0]);
             }
         }
     }
