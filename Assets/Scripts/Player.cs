@@ -9,7 +9,7 @@ public class Player : MonoBehaviour
     float v;
     Vector3 moveDirection;
     //Nos permite modificarlo desde Unity
-    [SerializeField] float speed = 3;
+    [SerializeField] public float speed = 3;
     [SerializeField] Transform aim;
     [SerializeField] Camera cam;
     Vector2 facingDirection;

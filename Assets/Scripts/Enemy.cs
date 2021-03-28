@@ -7,7 +7,7 @@ public class Enemy : MonoBehaviour
     Transform player;
     [SerializeField] int health = 1;
     [SerializeField] float speed = 1;
-
+    [SerializeField] int scorePoints = 100;
     void Start()
     {
         //busco al player y guardo su transform
@@ -31,6 +31,7 @@ public class Enemy : MonoBehaviour
         health--;
         if(health <= 0)
         {
+            GameManager.instance.Score += scorePoints;
             Destroy(gameObject);
         }
     }

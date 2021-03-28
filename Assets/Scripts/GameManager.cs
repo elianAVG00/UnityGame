@@ -8,6 +8,20 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
     [SerializeField] public int time = 30;
     [SerializeField] public int difficulty = 1;
+    [SerializeField] int score;
+
+    public int Score
+    {
+        get => score;
+        set
+        {
+            score = value;
+            if(score % 1000 == 0)
+            {
+                difficulty++;
+            }
+        }
+    }
 
     //aplico singleton para instanciar el objeto una unica vez
     private void Awake()
