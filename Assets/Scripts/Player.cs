@@ -20,6 +20,8 @@ public class Player : MonoBehaviour
     bool poweerShotEnabled;
     bool invulnerable;
     [SerializeField] int invulnerableTime = 3;
+    [SerializeField] Animator anim;
+    [SerializeField] SpriteRenderer spriteRenderer;
 
     public int Health
     {
@@ -75,6 +77,16 @@ public class Player : MonoBehaviour
 
             //https://docs.unity3d.com/Manual/Coroutines.html
             StartCoroutine(ReloadGun());
+        }
+        //le seteo el valor de sped para la animacion
+        anim.SetFloat("Speed", moveDirection.magnitude);
+        //if la pos de la mira esta mas a la derecha q la del jugador, haceemos uun flip al sprite
+        if(aim.position.x > transform.position.x)
+        {
+            spriteRenderer.flipX = true;
+        }else if (aim.position.x < transform.position.x)
+        {
+            spriteRenderer.flipX = false;
         }
     }
     IEnumerator ReloadGun()
